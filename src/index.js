@@ -1,9 +1,8 @@
 import 'babel-polyfill'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
-import {validateIp, addTileLayer, getAddress} from './helpers/index'
+import {validateIp, addTileLayer, getAddress, addOffset} from './helpers/index'
 import icon from '../images/icon-location.svg'
-
 
 const ipInput = document.querySelector('.search-bar__input')
 const btn = document.querySelector('.search-bar__btn')
@@ -53,4 +52,13 @@ function renderData(mapData) {
 
   map.setView([mapData.location.lat, mapData.location.lng])
   marker.setLatLng([mapData.location.lat, mapData.location.lng])
+
+  if (matchMedia("(max-width: 1023px)").matches) {
+    addOffset(map)
+  }
+  
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  getAddress('8.8.8.8').then(renderData)
+})
